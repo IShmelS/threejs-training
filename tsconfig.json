@@ -6,7 +6,9 @@
     "target": "es5",
     "jsx": "react",
     "allowJs": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true
   },
-  "files": ["custom.d.ts"]
+  "files": ["custom.d.ts"],
+  "include": ["./**/*.ts"]
 }
