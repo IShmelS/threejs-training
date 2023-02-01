@@ -1,0 +1,16 @@
+{
+    "tabWidth": 4,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "printWidth": 120,
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
+    "overrides": [
+        {
+            "files": "*.json",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
+}
