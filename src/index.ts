@@ -75,7 +75,7 @@ function addLight() {
         updateArr.push(() => {
             const height = freqArray[Math.abs(i - num)] || 0;
             rectLight1.height = height;
-            rectLight1.color.setRGB(height / 255, (255 - height) / 255, 0.7);
+            rectLight1.color.setRGB(height / 255, (255 - height) / 255, 0.9);
         });
     }
 
