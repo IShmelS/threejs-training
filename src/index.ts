@@ -66,26 +66,26 @@ function onWindowResize() {
 
 function addLight() {
     for (let i = -num; i < num; i++) {
-        const rectLight1 = new THREE.RectAreaLight(0x000000, 7, 4, 1);
-        rectLight1.position.set(i * 4, -0.1, 50);
+        const rectLight1 = new THREE.RectAreaLight(0xffffff, 15, 3, 10);
+        rectLight1.position.set(i * 4, -0.2, 50);
 
         scene.add(rectLight1);
         scene.add(new RectAreaLightHelper(rectLight1));
 
         updateArr.push(() => {
-            const height = freqArray[Math.abs(i - num)];
+            const height = freqArray[Math.abs(i - num)] || 0;
             rectLight1.height = height;
-            rectLight1.color.setRGB(height / 255, (255 - height) / 255, 0.9);
+            rectLight1.color.setRGB(height / 255, (255 - height) / 255, 0.7);
         });
     }
 
-    // const am = new AmbientLight(0xffffff, 0.2);
-    // scene.add(am);
+    const am = new AmbientLight(0xffffff, 0.05);
+    scene.add(am);
 }
 
 function addFloor() {
     const geoFloor = new THREE.BoxGeometry(2000, 0.1, 2000);
-    const matStdFloor = new THREE.MeshStandardMaterial({ color: 0x808080, roughness: 0.1, metalness: 0 });
+    const matStdFloor = new THREE.MeshStandardMaterial({ color: 0x808080, roughness: 0.1, metalness: 0.5 });
     const mshStdFloor = new THREE.Mesh(geoFloor, matStdFloor);
     mshStdFloor.position.set(0, 0, 0);
     scene.add(mshStdFloor);
