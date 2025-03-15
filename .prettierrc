@@ -5,6 +5,8 @@
     "printWidth": 120,
     "importOrderSeparation": true,
     "importOrderSortSpecifiers": true,
+    "arrayBracketSpacing": false,
+    "bracketSameLine": true,
     "overrides": [
         {
             "files": "*.json",
