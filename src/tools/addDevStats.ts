@@ -1,4 +1,4 @@
-import * as Stats from 'stats.js';
+import Stats from 'stats.js';
 
 /**
  * @param {number} panelIndex - 0: fps, 1: ms, 2: mb, 3+: custom

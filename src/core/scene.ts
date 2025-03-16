@@ -18,6 +18,7 @@ export const initScene = () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     window.addEventListener('resize', onWindowResize);
+    scene.background = new THREE.Color(0, 0, 0);
 
     return { scene, camera, renderer };
 };

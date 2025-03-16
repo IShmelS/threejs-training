@@ -72,7 +72,7 @@ export const createVortex = (scene: THREE.Scene, height: number = 4000000, maxRa
                 (height - 100.0) / 255.0 + (100.0 / 255.0),
                 1
             );
-            gl_FragColor = vec4(color, -factor + 0.5);
+            gl_FragColor = vec4(color, -factor + 0.2);
         }
     `;
 

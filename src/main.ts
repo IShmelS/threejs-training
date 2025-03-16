@@ -1,5 +1,13 @@
 import * as THREE from 'three';
-import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
+import {
+    EffectComposer,
+    RenderPass,
+    BloomEffect,
+    ChromaticAberrationEffect,
+    EffectPass,
+    FXAAEffect,
+    BlendFunction,
+} from 'postprocessing';
 
 import { initScene } from './core/scene';
 import { initControls } from './core/controls';
@@ -17,7 +25,11 @@ import { createVortex, animateRetroVortex } from './objects/vortex';
 const devStats = addDevStats(0);
 
 const { scene, camera, renderer } = initScene();
-const { audioContext, audioAnalyser, audio } = initMusic();
+const { audioContext, audioAnalyser } = initMusic();
+
+const composer = new EffectComposer(renderer);
+const renderPass = new RenderPass(scene, camera);
+composer.addPass(renderPass);
 
 const audioFrequencies = new Uint8Array(audioAnalyser.frequencyBinCount);
 
@@ -45,11 +57,28 @@ for (let i = 0; i < 20; i++) {
     const box = new THREE.Mesh(pos, mesh);
 
     updateArr.push(async () => {
-        const height = audioFrequencies[i * 5] * audio.volume || 0;
-        const red = height ? height / 255 : 0;
-        const green = height ? (255 - height) / 255 : 0;
-        const blue = height ? 0.9 : 0;
-        mesh.color.setRGB(red, green, blue);
+        const height = audioFrequencies[i * 5] || 0;
+        const t = height / 255;
+
+        const color1 = new THREE.Color('#BF0ACF');
+        const color2 = new THREE.Color('#9B59B6');
+        const color3 = new THREE.Color('#00f7ff');
+        const color4 = new THREE.Color('#00FFFF');
+
+        const interpolatedColor = new THREE.Color();
+
+        if (t < 0.33) {
+            const localT = t / 0.33;
+            interpolatedColor.lerpColors(color1, color2, localT);
+        } else if (t < 0.66) {
+            const localT = (t - 0.33) / 0.33;
+            interpolatedColor.lerpColors(color2, color3, localT);
+        } else {
+            const localT = (t - 0.66) / 0.34;
+            interpolatedColor.lerpColors(color3, color4, localT);
+        }
+
+        mesh.color.set(interpolatedColor);
 
         if (height) {
             box.visible = true;
@@ -73,12 +102,28 @@ const starsAnimation = animateStars(stars);
 const vortexAnimation = animateRetroVortex(vortex);
 updateArr.forEach((func) => func());
 
+const bloomEffect = new BloomEffect({
+    intensity: 0.9,
+    luminanceThreshold: 0.5,
+});
+
+const chromaticAberrationEffect = new ChromaticAberrationEffect({
+    offset: new THREE.Vector2(0.005, 0.005),
+    radialModulation: true,
+    modulationOffset: 0.6,
+});
+
+const fxaaEffect = new FXAAEffect({ blendFunction: BlendFunction.NORMAL });
+
+const effectPass = new EffectPass(camera, fxaaEffect, bloomEffect, chromaticAberrationEffect);
+composer.addPass(effectPass);
+
 const animate = () => {
     requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+    composer.render();
 
     crystalAnimation(audioFrequencies[20]);
-    starsAnimation(audioFrequencies[20]);
+    starsAnimation(audioFrequencies[30]);
     vortexAnimation(audioFrequencies[20]);
 
     void audioAnalyser.getByteFrequencyData(audioFrequencies);

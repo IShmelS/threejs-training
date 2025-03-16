@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import * as Stats from 'stats.js';
+import Stats from 'stats.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js';

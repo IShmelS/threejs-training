@@ -17,7 +17,7 @@ const createStarsPosition = (offset: number, maxRadius: number) => {
 export const createStars = (scene: THREE.Scene) => {
     const starVertices = [];
     const distances = [];
-    for (let i = 0; i < 20000; i++) {
+    for (let i = 0; i < 7000; i++) {
         const pos1 = createStarsPosition(10000, 50000);
         const pos2 = createStarsPosition(50000, 100000);
         const pos3 = createStarsPosition(100000, 2000000);
