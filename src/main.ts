@@ -75,7 +75,7 @@ const chromaticAberrationEffect = new ChromaticAberrationEffect({
 
 const fxaaEffect = new FXAAEffect({ blendFunction: BlendFunction.NORMAL });
 
-const effectPass = new EffectPass(camera, fxaaEffect, bloomEffect, chromaticAberrationEffect);
+const effectPass = new EffectPass(camera, bloomEffect, chromaticAberrationEffect, fxaaEffect);
 composer.addPass(effectPass);
 
 // main loop
@@ -94,6 +94,12 @@ const animate = () => {
     starsAnimation(audioFrequencies[30], audioFrequencies[10]);
     vortexAnimation(audioFrequencies[20]);
     pillarsAnimation.forEach((f) => f(audioFrequencies));
+
+    if (audioFrequencies[0]) {
+        camera.position.x += 2;
+        camera.position.y -= 0.2;
+        camera.lookAt(0, 0, 0);
+    }
 
     // dev
     devStats.update();

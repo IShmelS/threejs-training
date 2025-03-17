@@ -17,7 +17,7 @@ const createStarsPosition = (offset: number, maxRadius: number) => {
 export const createStars = (scene: THREE.Scene) => {
     const starVertices = [];
     const distances = [];
-    for (let i = 0; i < 6000; i++) {
+    for (let i = 0; i < 7000; i++) {
         const pos1 = createStarsPosition(10000, 50000);
         const pos2 = createStarsPosition(50000, 100000);
         const pos3 = createStarsPosition(100000, 2000000);
@@ -56,9 +56,9 @@ export const createStars = (scene: THREE.Scene) => {
             float factor = clamp(vDistance / maxDistance, 0.0, 1.0);
 
             vec3 color = vec3(
-                (255.0 * factor - 50.0 / 255.0) / 255.0 + (50.0 / 255.0),
-                (amplitude - 200.0) / 255.0 + (200.0 / 255.0),
-                1.0
+                (100.0 * factor + 15.0) / 255.0 + (55.0 / 255.0),
+                (amplitude  - 220.0 * factor / 0.07) / 255.0 + (220.0 / 255.0),
+                1.0 - factor * 0.7
             );
             gl_FragColor = vec4(color, 1.0);
         }
