@@ -19,11 +19,11 @@ export const initMusic = () => {
     audioAnalyser.channelCount = 12;
     audioAnalyser.fftSize = 256;
 
-    musicForAnalysis.addEventListener('canplaythrough', () => {
+    musicForAnalysis.addEventListener('canplay', () => {
         mediaElementSource.connect(audioAnalyser);
     });
 
-    musicForPlay.addEventListener('canplaythrough', () => {
+    musicForPlay.addEventListener('canplay', () => {
         audio.src = musicForPlay.src;
     });
 
@@ -52,6 +52,7 @@ export const initMusic = () => {
             playPauseBtn.classList.remove('play');
         }
     });
+
     volumeSlider.addEventListener('input', () => {
         audio.volume = Number(volumeSlider.value);
     });

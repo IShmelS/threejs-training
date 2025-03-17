@@ -6,7 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
     entry: './src/main.ts',
     output: {
-        filename: 'bundle.js',
+        filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist'),
     },
     module: {
@@ -41,7 +41,11 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({ template: 'public/index.html' }),
-        new MiniCssExtractPlugin({ filename: 'styles.css' }),
-        new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, 'dist/**/*')],
+            verbose: true,
+        }),
+        ,
     ],
 };
