@@ -17,7 +17,7 @@ const createStarsPosition = (offset: number, maxRadius: number) => {
 export const createStars = (scene: THREE.Scene) => {
     const starVertices = [];
     const distances = [];
-    for (let i = 0; i < 7000; i++) {
+    for (let i = 0; i < 10000; i++) {
         const pos1 = createStarsPosition(10000, 50000);
         const pos2 = createStarsPosition(50000, 100000);
         const pos3 = createStarsPosition(100000, 2000000);
@@ -90,13 +90,20 @@ export const animateStars = (
     const originalPositions = [...stars.geometry.attributes.position.array];
     const velocities = stars.geometry.attributes.velocity.array;
 
-    const influenceRadius = 100000;
+    const influenceRadius = 200000;
     const starAcceleration = 0.00007;
+    const starReturnAcceleration = 0.00005;
     const starMaxSpeed = 50;
     const dumping = 0.99;
 
     return (amplitude30: number, amplitude20: number) => {
+        // color
         stars.material.uniforms.amplitude.value = amplitude30;
+
+        // position
+        const time = Date.now();
+        const sinByTime = Math.sin(time);
+        const cosByTime = Math.cos(time);
 
         for (let i = 0; i < positions.length; i += 3) {
             const x = positions[i];
@@ -111,11 +118,10 @@ export const animateStars = (
             velocities[i + 1] = Math.max(-starMaxSpeed, Math.min(starMaxSpeed, velocities[i + 1]));
             velocities[i + 2] = Math.max(-starMaxSpeed, Math.min(starMaxSpeed, velocities[i + 2]));
 
-            // Расстояние от звезды до оси Y (в плоскости XZ)
             const distanceToXAxis = Math.sqrt(y * y + z * z);
             const distanceToYAxis = Math.sqrt(x * x + z * z);
             const distanceToZAxis = Math.sqrt(x * x + y * y);
-            const orbitRadius = distanceToZAxis + 2500; // Радиус орбиты — расстояние до оси Y
+            const orbitRadius = (distanceToZAxis + distanceToXAxis) / 2 + 2500;
 
             if (
                 amplitude20 &&
@@ -132,14 +138,13 @@ export const animateStars = (
                 velocities[i + 1] += (orbitY - y) * starAcceleration;
                 velocities[i + 2] += (orbitZ - z) * starAcceleration;
             } else {
-                const velocityToOriginX = (origX - x) * (starAcceleration / 2);
-                const velocityToOriginY = (origY - y) * (starAcceleration / 2);
-                const velocityToOriginZ = (origZ - z) * (starAcceleration / 2);
+                const velocityToOriginX = (origX - x) * starReturnAcceleration;
+                const velocityToOriginY = (origY - y) * starReturnAcceleration;
+                const velocityToOriginZ = (origZ - z) * starReturnAcceleration;
 
-                const time = Date.now();
-                velocities[i] += (Math.sin(time + i) / 10) * 0.999 + velocityToOriginX;
-                velocities[i + 1] += (Math.cos(time + i) / 10) * 0.999 + velocityToOriginY;
-                velocities[i + 2] += (Math.sin(time + i) / 10) * 0.999 + velocityToOriginZ;
+                velocities[i] += (sinByTime / 10) * 0.999 + velocityToOriginX;
+                velocities[i + 1] += (cosByTime / 10) * 0.999 + velocityToOriginY;
+                velocities[i + 2] += (sinByTime / 10) * 0.999 + velocityToOriginZ;
 
                 velocities[i] = (velocities[i] + velocityToOriginX) * dumping;
                 velocities[i + 1] = (velocities[i + 1] + velocityToOriginY) * dumping;
