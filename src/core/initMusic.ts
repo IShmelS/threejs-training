@@ -1,5 +1,4 @@
 import mus from '../assets/music/RW-for-3js.mp3';
-import mus2 from '../assets/music/040325A#.mp3';
 
 export const initMusic = () => {
     const audioContext = new AudioContext();
@@ -10,7 +9,7 @@ export const initMusic = () => {
     const restartBtn = document.getElementById('restartBtn') as HTMLButtonElement;
     const volumeSlider = document.getElementById('volumeSlider') as HTMLInputElement;
 
-    audio.src = mus;
+    const musicForPlay = new Audio(mus);
     const musicForAnalysis = new Audio(mus);
     const mediaElementSource = audioContext.createMediaElementSource(musicForAnalysis);
 
@@ -22,6 +21,10 @@ export const initMusic = () => {
 
     musicForAnalysis.addEventListener('canplaythrough', () => {
         mediaElementSource.connect(audioAnalyser);
+    });
+
+    musicForPlay.addEventListener('canplaythrough', () => {
+        audio.src = musicForPlay.src;
     });
 
     playPauseBtn.addEventListener('click', () => {

@@ -12,9 +12,11 @@
   "devDependencies": {
     "@types/stats.js": "^0.17.0",
     "@types/three": "^0.174.0",
+    "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^7.1.2",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.9.2",
     "postcss-loader": "^8.1.1",
     "sass": "^1.85.1",
     "sass-loader": "^16.0.5",

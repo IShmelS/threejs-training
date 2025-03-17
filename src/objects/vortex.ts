@@ -99,5 +99,6 @@ export const createVortex = (scene: THREE.Scene, height: number = 4000000, maxRa
 export const animateRetroVortex = (vortex: THREE.Mesh) => {
     return (height: number) => {
         (vortex.material as THREE.ShaderMaterial).uniforms.height.value = height;
+        vortex.rotateY(0.0005);
     };
 };

@@ -44,7 +44,7 @@ export const createMainCrystal = (scene: THREE.Scene) => {
 
 export const animateCrystal = (crystal: THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhongMaterial>) => {
     return (height: number) => {
-        crystal.rotateY(0.0015);
+        crystal.rotateY(0.0005);
         // crystal.material.color
         crystal.material.emissive = new THREE.Color().setRGB(height / 255, (255 - height) / 255, 255);
     };
